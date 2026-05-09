@@ -5,6 +5,7 @@ import StakePanel from "./components/StakePanel";
 import NFTCard from "./components/NFTCard";
 import BuyPanel from "./components/BuyPanel";
 import EcosystemPanel from "./components/EcosystemPanel";
+import Footer from "./components/Footer";
 import SwapPanel from "./components/SwapPanel";
 
 interface Toast { id: number; msg: string; err: boolean; }
@@ -297,22 +298,7 @@ export default function App() {
         </div>
 
       </div>
-
-      {/* FOOTER */}
-      <footer style={{
-        position:"relative", zIndex:2,
-        borderTop:"1px solid rgba(139,92,246,0.2)",
-        padding:"14px 32px",
-        display:"flex", justifyContent:"space-between", alignItems:"center",
-        background:"rgba(10,5,20,0.6)",
-      }}>
-        <span style={{ fontFamily:"'Share Tech Mono',monospace",fontSize:10,color:"#8b5cf6",opacity:0.6,letterSpacing:2 }}>
-          CYBERLUX PROTOCOL v1.0.0 — MONAD MAINNET
-        </span>
-        <span style={{ fontFamily:"'Share Tech Mono',monospace",fontSize:9,color:"#ff00ff",opacity:0.5 }}>
-          0xE96462daA04464036b24f48B2c43d47f9072c34B
-        </span>
-      </footer>
+      <Footer />
 
       {/* TOASTS */}
       <div style={{ position:"fixed",bottom:24,right:24,zIndex:999,display:"flex",flexDirection:"column",gap:10 }}>
