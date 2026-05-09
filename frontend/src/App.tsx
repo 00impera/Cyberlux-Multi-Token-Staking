@@ -85,15 +85,7 @@ export default function App() {
         backdropFilter:"blur(16px)",
       }}>
         <div style={{ display:"flex", alignItems:"center", gap:14 }}>
-          <div style={{
-            width:42, height:42,
-            background:"linear-gradient(135deg,#ff00ff,#8b5cf6,#00ffff)",
-            clipPath:"polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)",
-            display:"flex", alignItems:"center", justifyContent:"center",
-            fontFamily:"'Orbitron',monospace", fontWeight:900, fontSize:16,
-            color:"#0f0518", flexShrink:0,
-            animation:"neonPulse 3s ease-in-out infinite",
-          }}>C</div>
+          <img src="https://raw.githubusercontent.com/00impera/Cyberlux-Multi-Token-Staking/9517371315835ca1b8a1a3bf5a2478a306aaef30/cyberlux_bot.gif" alt="Cyberlux" style={{ height:42, width:42, borderRadius:8, objectFit:"cover", flexShrink:0 }} />
           <div>
             <div style={{
               fontFamily:"'Orbitron',monospace", fontSize:18, fontWeight:900,
