@@ -35,7 +35,7 @@ KEYBOARD = InlineKeyboardMarkup([
 async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_photo(photo=LOGO, caption=WELCOME, parse_mode="Markdown", reply_markup=KEYBOARD)
 
-async def app(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
+async def app_cmd(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"🚀 Open Cyberlux Staking App:\n{APP_URL}",
         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Open App ↗", url=APP_URL)]]))
 
@@ -91,14 +91,18 @@ async def help_cmd(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(text, parse_mode="Markdown")
 
 async def main():
-    app_bot = Application.builder().token(TOKEN).build()
-    app_bot.add_handler(CommandHandler("start",    start))
-    app_bot.add_handler(CommandHandler("app",      app))
-    app_bot.add_handler(CommandHandler("stake",    stake))
-    app_bot.add_handler(CommandHandler("apr",      apr))
-    app_bot.add_handler(CommandHandler("contract", contract))
-    app_bot.add_handler(CommandHandler("help",     help_cmd))
-    await app_bot.run_polling()
+    bot = Application.builder().token(TOKEN).build()
+    bot.add_handler(CommandHandler("start",    start))
+    bot.add_handler(CommandHandler("app",      app_cmd))
+    bot.add_handler(CommandHandler("stake",    stake))
+    bot.add_handler(CommandHandler("apr",      apr))
+    bot.add_handler(CommandHandler("contract", contract))
+    bot.add_handler(CommandHandler("help",     help_cmd))
+
+    await bot.initialize()
+    await bot.updater.start_polling()
+    await bot.start()
+    await asyncio.Event().wait()
 
 if __name__ == "__main__":
     asyncio.run(main())
