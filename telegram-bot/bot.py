@@ -1,12 +1,15 @@
 import os
 import asyncio
 import logging
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 logging.basicConfig(level=logging.INFO)
 
 TOKEN   = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+PORT    = int(os.environ.get("PORT", 10000))
 APP_URL = "https://cyberlux-station.pages.dev"
 LOGO    = "https://raw.githubusercontent.com/00impera/Cyberlux-Multi-Token-Staking/badf086b4eead1f78d113c94f13c76cb2162b403/20.png.png"
 
@@ -31,6 +34,17 @@ KEYBOARD = InlineKeyboardMarkup([
         InlineKeyboardButton("💬 Support", url="https://t.me/MultiTokenStaking_Bot"),
     ],
 ])
+
+class HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+    def log_message(self, *args):
+        pass
+
+def run_health_server():
+    HTTPServer(("0.0.0.0", PORT), HealthHandler).serve_forever()
 
 async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_photo(photo=LOGO, caption=WELCOME, parse_mode="Markdown", reply_markup=KEYBOARD)
@@ -91,6 +105,7 @@ async def help_cmd(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(text, parse_mode="Markdown")
 
 async def main():
+    threading.Thread(target=run_health_server, daemon=True).start()
     bot = Application.builder().token(TOKEN).build()
     bot.add_handler(CommandHandler("start",    start))
     bot.add_handler(CommandHandler("app",      app_cmd))
@@ -98,7 +113,6 @@ async def main():
     bot.add_handler(CommandHandler("apr",      apr))
     bot.add_handler(CommandHandler("contract", contract))
     bot.add_handler(CommandHandler("help",     help_cmd))
-
     await bot.initialize()
     await bot.updater.start_polling()
     await bot.start()
