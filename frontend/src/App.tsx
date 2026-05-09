@@ -132,37 +132,27 @@ export default function App() {
       </header>
 
       {/* STATS BAR */}
-      <div style={{
-        display:"flex", overflowX:"auto",
-        borderBottom:"1px solid rgba(139,92,246,0.2)",
-        background:"rgba(10,5,20,0.7)",
-        position:"relative", zIndex:2,
-      }}>
-        {[
-          ["BTC",      fmt(prices.BTC),  "#f7931a"],
-          ["ETH",      fmt(prices.ETH),  "#627eea"],
-          ["MON",      fmt(prices.MON),  "#00ffff"],
-          ["USDC",     fmt(prices.USDC), "#2775ca"],
-          ["Contract", "0xE964…4B",      "#8b5cf6"],
-          ["Chain ID", "143",            "#ff00ff"],
-        ].map(([label,val,color]) => (
-          <div key={label} style={{
-            flex:1, minWidth:130,
-            padding:"12px 20px",
-            borderRight:"1px solid rgba(139,92,246,0.1)",
-          }}>
-            <div style={{
-              fontFamily:"'Share Tech Mono',monospace", fontSize:9,
-              letterSpacing:3, textTransform:"uppercase",
-              color: color as string, opacity:0.6, marginBottom:4,
-            }}>{label}</div>
-            <div style={{
-              fontFamily:"'Orbitron',monospace", fontSize:15, fontWeight:700,
-              color: color as string,
-              textShadow:`0 0 10px ${color}88`,
-            }}>{val}</div>
-          </div>
-        ))}
+      <div style={{ position:"relative", zIndex:2, background:"rgba(10,5,20,0.85)", borderBottom:"1px solid rgba(139,92,246,0.25)" }}>
+        <dl style={{ display:"grid", gridTemplateColumns:"repeat(6,1fr)", margin:0, padding:0 }}>
+          {([
+            ["BTC",      fmt(prices.BTC),  "#f7931a", "+2.4%"],
+            ["ETH",      fmt(prices.ETH),  "#627eea", "+1.8%"],
+            ["MON",      fmt(prices.MON),  "#00ffff", "+5.2%"],
+            ["USDC",     fmt(prices.USDC), "#2775ca", "stable"],
+            ["Contract", "0xE964…4B", "#8b5cf6", "verified ✓"],
+            ["Chain ID", "143",            "#ff00ff", "monad"],
+          ] as [string,string,string,string][]).map(([label,val,color,sub], i) => (
+            <div key={label} style={{ position:"relative", padding:"16px 20px", overflow:"hidden", borderRight: i < 5 ? "1px solid rgba(139,92,246,0.15)" : "none" }}>
+              <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 20% 50%, " + color + "09 0%, transparent 70%)", pointerEvents:"none" }} />
+              <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:"linear-gradient(90deg,transparent," + color + "55,transparent)" }} />
+              <dt style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:9, letterSpacing:3, textTransform:"uppercase", color:color, opacity:0.55, marginBottom:6 }}>{label}</dt>
+              <dd style={{ margin:0 }}>
+                <div style={{ fontFamily:"'Orbitron',monospace", fontSize:15, fontWeight:700, color:color, letterSpacing:1 }}>{val}</div>
+                <div style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:9, color:color, opacity:0.4, marginTop:3 }}>{sub}</div>
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
 
       {/* MAIN GRID */}
