@@ -1,0 +1,17 @@
+name = "cyberlux-station"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "./frontend/dist"
+
+[vars]
+CONTRACT_ADDRESS = "0xE96462daA04464036b24f48B2c43d47f9072c34B"
+CHAIN_ID = "143"
+RPC_URL = "https://monad-mainnet.g.alchemy.com/v2/Uwb7T0DbXMQHjiJBNf9_b005qYjLmJqk"
+
+[[kv_namespaces]]
+binding = "CYBERLUX_KV"
+id = "b9a933adabec41d3be0778e9aa68041b"
+
+[[d1_databases]]
+binding = "CYBERLUX_DB"
+database_name = "cyberlux-db"
+database_id = "dc71c558-ca24-4961-b55a-e6da661c4a21"
