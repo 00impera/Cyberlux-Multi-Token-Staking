@@ -1,4 +1,5 @@
 import os
+import asyncio
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, ContextTypes
@@ -32,18 +33,11 @@ KEYBOARD = InlineKeyboardMarkup([
 ])
 
 async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_photo(
-        photo=LOGO,
-        caption=WELCOME,
-        parse_mode="Markdown",
-        reply_markup=KEYBOARD,
-    )
+    await update.message.reply_photo(photo=LOGO, caption=WELCOME, parse_mode="Markdown", reply_markup=KEYBOARD)
 
 async def app(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        f"🚀 Open Cyberlux Staking App:\n{APP_URL}",
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Open App ↗", url=APP_URL)]]),
-    )
+    await update.message.reply_text(f"🚀 Open Cyberlux Staking App:\n{APP_URL}",
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Open App ↗", url=APP_URL)]]))
 
 async def stake(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     text = (
@@ -96,7 +90,7 @@ async def help_cmd(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     )
     await update.message.reply_text(text, parse_mode="Markdown")
 
-def main():
+async def main():
     app_bot = Application.builder().token(TOKEN).build()
     app_bot.add_handler(CommandHandler("start",    start))
     app_bot.add_handler(CommandHandler("app",      app))
@@ -104,7 +98,7 @@ def main():
     app_bot.add_handler(CommandHandler("apr",      apr))
     app_bot.add_handler(CommandHandler("contract", contract))
     app_bot.add_handler(CommandHandler("help",     help_cmd))
-    app_bot.run_polling()
+    await app_bot.run_polling()
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
