@@ -4,6 +4,7 @@ import { thirdwebClient, monadMainnet } from "./lib/contract";
 import StakePanel from "./components/StakePanel";
 import NFTCard from "./components/NFTCard";
 import BuyPanel from "./components/BuyPanel";
+import EcosystemPanel from "./components/EcosystemPanel";
 import SwapPanel from "./components/SwapPanel";
 
 interface Toast { id: number; msg: string; err: boolean; }
@@ -285,6 +286,14 @@ export default function App() {
           </div>
 
           <NFTCard tokenId={viewId} />
+
+          <div style={{ marginTop:24 }}>
+            <div style={{ fontFamily:"'Orbitron',monospace", fontSize:12, fontWeight:700, letterSpacing:3, textTransform:"uppercase", color:"#ff00ff", marginBottom:16, display:"flex", alignItems:"center", gap:10, textShadow:"0 0 10px rgba(255,0,255,0.5)" }}>
+              <div style={{ width:3, height:16, background:"linear-gradient(180deg,#ff00ff,#00ffff)", borderRadius:2, boxShadow:"0 0 8px #ff00ff" }} />
+              Ecosystem
+            </div>
+            <EcosystemPanel />
+          </div>
         </div>
 
       </div>
