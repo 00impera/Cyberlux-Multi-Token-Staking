@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { ConnectButton } from "thirdweb/react";
 import { thirdwebClient, monadMainnet } from "./lib/contract";
 import StakePanel from "./components/StakePanel";
+import { useIsMobile } from "./hooks/useIsMobile";
 import NFTCard from "./components/NFTCard";
 import BuyPanel from "./components/BuyPanel";
 import EcosystemPanel from "./components/EcosystemPanel";
@@ -35,6 +36,7 @@ export default function App() {
       ? `$${n.toLocaleString("en",{maximumFractionDigits:0})}`
       : `$${n.toFixed(4)}`;
 
+  const isMobile = useIsMobile();
   const panel: React.CSSProperties = {
     background: "rgba(15,5,24,0.85)",
     border: "1px solid rgba(139,92,246,0.3)",
@@ -167,8 +169,8 @@ export default function App() {
       <div style={{
         position:"relative", zIndex:2,
         display:"grid",
-        gridTemplateColumns:"1fr 1fr 360px",
-        gap:20, padding:"24px 32px", flex:1,
+        gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 360px",
+        gap:20, padding: isMobile ? "16px" : "24px 32px", flex:1,
       }}>
 
         {/* COL 1 — STAKE + BUY tabs */}

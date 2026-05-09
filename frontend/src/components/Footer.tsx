@@ -2,23 +2,23 @@ import React from "react";
 
 const FOOTER_LINKS = [
   { label:"MonadVision", url:"https://monadvision.com/address/0xe96462daa04464036b24f48b2c43d47f9072c34b",  color:"#00ffff" },
-  { label:"SocialScan",  url:"https://socialscan.io/address/0xe96462daa04464036b24f48b2c43d47f9072c34b",    color:"#8b5cf6" },
-  { label:"MonadScan",   url:"https://monadscan.io/address/0xe96462daa04464036b24f48b2c43d47f9072c34b",     color:"#ff00ff" },
+  { label:"SocialScan",  url:"https://monad.socialscan.io/address/0xe96462daa04464036b24f48b2c43d47f9072c34b",    color:"#8b5cf6" },
+  { label:"MonadScan",   url:"https://monadscan.com/address/0xe96462daa04464036b24f48b2c43d47f9072c34b",     color:"#ff00ff" },
   { label:"Telegram",    url:"https://t.me/MultiTokenStaking_Bot",                                          color:"#00ffff" },
   { label:"OpenSea",     url:"https://opensea.io/SUPERRARECOINS",                                           color:"#2081e2" },
 ];
 
 const SECURITY_BADGES = [
-  { label:"Certik",      icon:"🛡️", color:"#f7931a", url:"https://certik.com" },
-  { label:"Hacken",      icon:"🔐", color:"#39FF14", url:"https://hacken.io" },
-  { label:"Sherlock",    icon:"🔍", color:"#00ffff", url:"https://sherlock.xyz" },
-  { label:"Code4rena",   icon:"⚔️", color:"#8b5cf6", url:"https://code4rena.com" },
-  { label:"Spearbit",    icon:"🛡️", color:"#ff00ff", url:"https://spearbit.com" },
-  { label:"Immunefi",    icon:"🐛", color:"#f59e0b", url:"https://immunefi.com" },
-  { label:"MonadScan ✅", icon:"📋", color:"#39FF14", url:"https://monadscan.io/address/0xe96462daa04464036b24f48b2c43d47f9072c34b" },
-  { label:"Slither",     icon:"🔬", color:"#00eaff", url:"https://github.com/crytic/slither" },
-  { label:"MythX",       icon:"🧪", color:"#8b5cf6", url:"https://mythx.io" },
-  { label:"Aderyn",      icon:"🌿", color:"#39FF14", url:"https://github.com/Cyfrin/aderyn" },
+  { label:"Certik",      color:"#f7931a", url:"https://certik.com" },
+  { label:"Hacken",      color:"#39FF14", url:"https://hacken.io" },
+  { label:"Sherlock",    color:"#00ffff", url:"https://sherlock.xyz" },
+  { label:"Code4rena",   color:"#8b5cf6", url:"https://code4rena.com" },
+  { label:"Spearbit",    color:"#ff00ff", url:"https://spearbit.com" },
+  { label:"Immunefi",    color:"#f59e0b", url:"https://immunefi.com" },
+  { label:"MonadScan ✅", color:"#39FF14", url:"https://monadscan.com/address/0xe96462daa04464036b24f48b2c43d47f9072c34b" },
+  { label:"Slither",     color:"#00eaff", url:"https://github.com/crytic/slither" },
+  { label:"MythX",       color:"#8b5cf6", url:"https://mythx.io" },
+  { label:"Aderyn",      color:"#39FF14", url:"https://github.com/Cyfrin/aderyn" },
 ];
 
 export default function Footer() {
@@ -38,7 +38,6 @@ export default function Footer() {
                 onMouseEnter={e=>{ const d=e.currentTarget as HTMLDivElement; d.style.background=`${b.color}15`; d.style.borderColor=`${b.color}77`; }}
                 onMouseLeave={e=>{ const d=e.currentTarget as HTMLDivElement; d.style.background="rgba(255,255,255,0.03)"; d.style.borderColor=`${b.color}33`; }}
               >
-                <span style={{ fontSize:12 }}>{b.icon}</span>
                 <span style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:10, color:b.color, letterSpacing:1 }}>{b.label}</span>
               </div>
             </a>
@@ -66,7 +65,7 @@ export default function Footer() {
           ))}
 
           {/* Donate button */}
-          <a href="#donate" style={{ textDecoration:"none" }}>
+          <a href="https://monadscan.com/address/0x592B35c8917eD36c39Ef73D0F5e92B0173560b2e" target="_blank" rel="noopener noreferrer" style={{ textDecoration:"none" }}>
             <div
               style={{ padding:"7px 16px", background:"linear-gradient(135deg,#f59e0b,#ef4444)", border:"none", borderRadius:6, fontFamily:"'Orbitron',monospace", fontSize:10, fontWeight:700, color:"#000", cursor:"pointer", letterSpacing:1, transition:"opacity 0.2s" }}
               onMouseEnter={e=>(e.currentTarget as HTMLDivElement).style.opacity="0.8"}
