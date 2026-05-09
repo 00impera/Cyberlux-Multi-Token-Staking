@@ -1,10 +1,10 @@
 import React from "react";
 
 const PROJECTS = [
-  { name: "TIMEVAULT", desc: "Safe Deposit Time Lock", url: "https://safedeposittimelock.pages.dev/",        color: "#00ffff", icon: "🔒" },
-  { name: "EUROSPACE", desc: "Eurocoin on Monad",       url: "https://d41e7edc.eurocoin-website.pages.dev/", color: "#8b5cf6", icon: "🌍" },
-  { name: "WINNOWIN",  desc: "Vault Game on Monad",     url: "https://winnowin.pages.dev/",                  color: "#ff00ff", icon: "🎮" },
-  { name: "GEMSROCK",  desc: "Ice Box Rewards",         url: "https://gems-coin-nft.pages.dev/",             color: "#39FF14", icon: "💎" },
+  { name: "TIMEVAULT", desc: "Safe Deposit Time Lock", url: "https://safedeposittimelock.pages.dev/",        color: "#00ffff" },
+  { name: "EUROSPACE", desc: "Eurocoin on Monad",       url: "https://d41e7edc.eurocoin-website.pages.dev/", color: "#8b5cf6" },
+  { name: "WINNOWIN",  desc: "Vault Game on Monad",     url: "https://winnowin.pages.dev/",                  color: "#ff00ff" },
+  { name: "GEMSROCK",  desc: "Ice Box Rewards",         url: "https://gems-coin-nft.pages.dev/",             color: "#39FF14" },
 ];
 
 export default function EcosystemPanel() {
@@ -28,9 +28,7 @@ export default function EcosystemPanel() {
         >
           <div style={{ position: "absolute", left: "-4rem", top: "50%", transform: "translateY(-50%)", width: 120, height: 60, background: `radial-gradient(ellipse, ${p.color}55 0%, transparent 70%)`, filter: "blur(18px)", pointerEvents: "none" }} />
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,transparent,${p.color},transparent)`, opacity: 0.5 }} />
-          <div style={{ display: "flex", alignItems: "center", gap: 12, position: "relative" }}>
-            <span style={{ fontSize: 20 }}>{p.icon}</span>
-            <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, position: "relative" }}>            <div>
               <div style={{ fontFamily: "Orbitron, monospace", fontSize: 11, fontWeight: 700, color: p.color, letterSpacing: 2, textShadow: `0 0 8px ${p.color}66` }}>{p.name}</div>
               <div style={{ fontFamily: "monospace", fontSize: 10, color: "rgba(255,255,255,0.4)", marginTop: 2, letterSpacing: 1 }}>{p.desc}</div>
             </div>
