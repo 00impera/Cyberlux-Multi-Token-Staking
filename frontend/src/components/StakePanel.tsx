@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useActiveAccount, useSendTransaction } from "thirdweb/react";
 import { prepareContractCall, toWei, getContract } from "thirdweb";
 import { stakingContract, TOKENS, type TokenInfo, thirdwebClient, monadMainnet, CONTRACT_ADDRESS } from "../lib/contract";
@@ -12,12 +12,78 @@ const inputStyle: React.CSSProperties = {
   padding: "10px 14px", fontFamily: "'Share Tech Mono', monospace",
   fontSize: 13, color: "#ffffff", outline: "none",
 };
-const selectStyle: React.CSSProperties = { ...inputStyle, cursor: "pointer" };
 const labelStyle: React.CSSProperties = {
   fontFamily: "'Share Tech Mono', monospace", fontSize: 10,
   letterSpacing: 2, textTransform: "uppercase",
   color: "rgba(255,255,255,0.4)", marginBottom: 6, display: "block",
 };
+
+
+function aprColor(apr: number): string {
+  if (apr >= 35) return "#ff00ff";
+  if (apr >= 25) return "#8b5cf6";
+  if (apr >= 18) return "#00ffff";
+  return "#39FF14";
+}
+
+function TokenSelect({ value, onChange }: { value: TokenInfo; onChange: (t: TokenInfo) => void }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+  const color = aprColor(value.apr);
+  return (
+    <div ref={ref} style={{ position: "relative", userSelect: "none" }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 8, padding: "10px 14px", cursor: "pointer", transition: "border-color 0.2s" }}
+        onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)")}
+        onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)")}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{ width: 8, height: 8, borderRadius: "50%", background: color, boxShadow: "0 0 6px " + color, flexShrink: 0, display: "inline-block" }} />
+          <span style={{ fontFamily: "Share Tech Mono, monospace", fontSize: 13, color: "#fff", fontWeight: 700 }}>{value.symbol}</span>
+          <span style={{ fontFamily: "Share Tech Mono, monospace", fontSize: 10, color: "rgba(255,255,255,0.35)", marginLeft: 2 }}>{value.category}</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ fontFamily: "Share Tech Mono, monospace", fontSize: 12, color: color, fontWeight: 700 }}>{value.apr}% APR</span>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 10 }}>{open ? "▲" : "▼"}</span>
+        </div>
+      </button>
+      {open && (
+        <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, zIndex: 99, background: "#0f0f1a", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 10, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.6)", maxHeight: 280, overflowY: "auto" }}>
+          {TOKENS.map((t) => {
+            const c = aprColor(t.apr);
+            const active = t.address === value.address;
+            return (
+              <button
+                key={t.address}
+                onClick={() => { onChange(t); setOpen(false); }}
+                style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", cursor: "pointer", border: "none", background: active ? "rgba(255,255,255,0.07)" : "transparent", borderLeft: active ? "3px solid " + c : "3px solid transparent", transition: "background 0.15s" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}
+                onMouseLeave={e => (e.currentTarget.style.background = active ? "rgba(255,255,255,0.07)" : "transparent")}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ width: 8, height: 8, borderRadius: "50%", background: c, boxShadow: "0 0 5px " + c, flexShrink: 0, display: "inline-block" }} />
+                  <div style={{ textAlign: "left" }}>
+                    <div style={{ fontFamily: "Share Tech Mono, monospace", fontSize: 12, color: "#fff", fontWeight: 700 }}>{t.symbol}</div>
+                    <div style={{ fontFamily: "Share Tech Mono, monospace", fontSize: 9, color: "rgba(255,255,255,0.35)", marginTop: 1 }}>{t.category}</div>
+                  </div>
+                </div>
+                <span style={{ fontFamily: "Share Tech Mono, monospace", fontSize: 11, color: c, fontWeight: 700 }}>{t.apr}% APR</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return <div style={{ marginBottom: 16 }}><label style={labelStyle}>{label}</label>{children}</div>;
@@ -140,9 +206,7 @@ export default function StakePanel({ onToast }: { onToast: (msg: string, err?: b
       {tab==="stake" && (
         <div className="animate-fade-in">
           <Field label="Select Token">
-            <select style={selectStyle} value={selToken.address} onChange={e=>setSelToken(TOKENS.find(t=>t.address===e.target.value)??TOKENS[0])}>
-              {TOKENS.map(t=><option key={t.address} value={t.address}>{t.symbol} — {t.apr}% APR [{t.category}]</option>)}
-            </select>
+            <TokenSelect value={selToken} onChange={setSelToken} />
           </Field>
           <Field label="Amount">
             <input type="number" min="0" step="any" placeholder="0.00" style={inputStyle} value={stakeAmt} onChange={e=>setStakeAmt(e.target.value)} />
