@@ -4,6 +4,7 @@ import { thirdwebClient, monadMainnet } from "./lib/contract";
 import StakePanel from "./components/StakePanel";
 import NFTCard from "./components/NFTCard";
 import BuyPanel from "./components/BuyPanel";
+import SwapPanel from "./components/SwapPanel";
 
 interface Toast { id: number; msg: string; err: boolean; }
 
@@ -12,7 +13,7 @@ export default function App() {
   const [viewId, setViewId]   = useState<number | null>(null);
   const [inputId, setInputId] = useState("");
   const [prices, setPrices]   = useState<Record<string,number>>({});
-  const [mainTab, setMainTab] = useState<"stake"|"buy">("stake");
+  const [mainTab, setMainTab] = useState<"stake"|"buy"|"swap">("stake");
 
   const addToast = useCallback((msg: string, err = false) => {
     const id = Date.now();
@@ -178,7 +179,7 @@ export default function App() {
 
           {/* Main tab switcher */}
           <div style={{ display:"flex", gap:6, marginBottom:20 }}>
-            {([["stake","Stake"],["buy","Buy with Card"]] as const).map(([id,label]) => (
+            {([["stake","Stake"],["buy","Buy with Card"],["swap","Swap"]] as const).map(([id,label]) => (
               <button
                 key={id}
                 onClick={() => setMainTab(id)}
@@ -201,6 +202,7 @@ export default function App() {
 
           {mainTab === "stake" && <StakePanel onToast={addToast} />}
           {mainTab === "buy"   && <BuyPanel />}
+          {mainTab === "swap"  && <SwapPanel />}
         </div>
 
         {/* COL 2 — ORACLE + APR */}
